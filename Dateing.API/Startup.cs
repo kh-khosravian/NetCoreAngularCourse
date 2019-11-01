@@ -15,6 +15,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Net;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
+using Dateing.API.Helpers;
 
 namespace Dateing.API
 {
@@ -49,7 +53,7 @@ namespace Dateing.API
             {
                 auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                
+
             }).AddJwtBearer(token =>
             {
                 token.RequireHttpsMetadata = false;
@@ -74,6 +78,20 @@ namespace Dateing.API
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseExceptionHandler(builder =>
+            {
+                builder.Run(async context =>
+                {
+                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    var error = context.Features.Get<IExceptionHandlerFeature>();
+                    if (error != null)
+                    {
+                        context.Response.AddApplicationError(error.Error.GetBaseException().Message);
+                        await context.Response.WriteAsync(error.Error.GetBaseException().Message);
+                    }
+                });
+            });
 
             // app.UseHttpsRedirection();
             app.UseRouting();
