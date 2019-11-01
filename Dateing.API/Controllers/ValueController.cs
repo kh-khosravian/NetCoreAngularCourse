@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Dateing.API.Controllers
 {
-    
+
     [ApiController]
     [Route("[controller]")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
@@ -25,6 +25,7 @@ namespace Dateing.API.Controllers
 
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetValue()
         {
