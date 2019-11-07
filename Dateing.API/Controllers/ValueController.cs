@@ -25,7 +25,6 @@ namespace Dateing.API.Controllers
 
         }
 
-        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetValue()
         {
