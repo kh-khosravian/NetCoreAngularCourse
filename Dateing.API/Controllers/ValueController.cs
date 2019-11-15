@@ -14,7 +14,7 @@ namespace Dateing.API.Controllers
 
     [ApiController]
     [Route("[controller]")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize]
     public class ValueController : ControllerBase
     {
         private readonly DataContext _context;
