@@ -31,7 +31,7 @@ namespace Dateing.API.Data
 
         public async Task<IEnumerable<User>> GetUsers()
         {
-            var users = await _context.Users.ToListAsync();
+            var users = await _context.Users.Include("Photos").ToListAsync();
             return users;
         }
 
