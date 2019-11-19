@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Dateing.API.Data;
@@ -40,6 +41,19 @@ namespace Dateing.API.Controllers
             }
             var mappedUser = _mapper.Map<UserDetailModel>(user);
             return Ok(mappedUser);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(long id, UserUpdateModel userUpdate)
+        {
+            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            var SelectedUser = await _repo.GetUser(id);
+            _mapper.Map(userUpdate, SelectedUser);
+            if (await _repo.SaveAll())
+                return NoContent();
+            throw new System.Exception("update user infomation failed.");
         }
     }
 }

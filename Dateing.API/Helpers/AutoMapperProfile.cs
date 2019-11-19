@@ -17,6 +17,7 @@ namespace Dateing.API.Helpers
             .ForMember(dest => dest.PhotoURL, opt => opt.MapFrom(mf => mf.Photos.FirstOrDefault(p => p.IsMain).URL))
             .ForMember(dest => dest.Age, opt => opt.MapFrom(mf => mf.BirthDay.CalculateAge()));
             CreateMap<Photo, PhotoModel>();
+            CreateMap<UserUpdateModel, User>();
         }
     }
 }

@@ -21,4 +21,8 @@ export class UserService {
     return this.http.get<UserModel>(this.baseUrl + id);
   }
 
+  UpdateUser = (id: number, user: UserModel) => {
+    return this.http.put(this.baseUrl + id, user);
+  }
+
 }
