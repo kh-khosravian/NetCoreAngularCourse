@@ -23,6 +23,16 @@ namespace Dateing.API.Data
             _context.Remove(entity);
         }
 
+        public async Task<Photo> GetMainPhotoForUser(long userId)
+        {
+            return await _context.Photos.FirstOrDefaultAsync(x => x.IsMain && x.UserId == userId);
+        }
+
+        public async Task<Photo> GetPhoto(int Id)
+        {
+            return await _context.Photos.FindAsync(Id);
+        }
+
         public async Task<User> GetUser(long id)
         {
             var user = await _context.Users.Include("Photos").FirstOrDefaultAsync(f => f.Id == id);

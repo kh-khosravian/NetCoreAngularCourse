@@ -23,7 +23,7 @@ export class MemberEditComponent implements OnInit {
     }
   }
   constructor(private route: ActivatedRoute, private alertify: AlertifyService, private userService: UserService,
-              private authService: AuthService) { }
+    private authService: AuthService) { }
   ngOnInit() {
     this.route.data.subscribe(userData => {
       this.user = userData['user'];
@@ -38,5 +38,9 @@ export class MemberEditComponent implements OnInit {
       this.alertify.success(err);
     })
 
+  }
+  UpdateMainUserPhoto = (photoUrl) => {
+    this.user.photoURL = photoUrl;
+    this.authService.changeMemberPhoto(photoUrl);
   }
 }

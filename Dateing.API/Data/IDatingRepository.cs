@@ -15,5 +15,8 @@ namespace Dateing.API.Data
         Task<IEnumerable<User>> GetUsers();
 
         Task<User> GetUser(long Id);
+
+        Task<Photo> GetPhoto(int Id);
+        Task<Photo> GetMainPhotoForUser(long userId);
     }
 }

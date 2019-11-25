@@ -15,7 +15,7 @@ namespace Dateing.API.Data
         }
         public async Task<User> Login(string username, string password)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+            var user = await _context.Users.Include(x => x.Photos).FirstOrDefaultAsync(u => u.Username == username);
             if (user == null)
                 return null;
             if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
@@ -63,7 +63,7 @@ namespace Dateing.API.Data
 
         public async Task<bool> UserExist(string username)
         {
-            return await _context.Users.AnyAsync(u=>u.Username == username);
+            return await _context.Users.AnyAsync(u => u.Username == username);
         }
     }
 }

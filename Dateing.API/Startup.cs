@@ -45,7 +45,7 @@ namespace Dateing.API
             services.AddAutoMapper(typeof(DatingRepository).Assembly);
 
             services.AddCors();
-
+            services.Configure<CloudinarySetting>(Configuration.GetSection("CloudinarySettings"));
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(token =>
             {

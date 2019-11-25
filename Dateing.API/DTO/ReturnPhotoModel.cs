@@ -1,16 +1,14 @@
 using System;
 
-namespace Dateing.API.Models
+namespace Dateing.API.DTO
 {
-    public class Photo
+    public class ReturnPhotoModel
     {
         public int Id { get; set; }
         public string URL { get; set; }
         public string Description { get; set; }
         public DateTime DateAdded { get; set; }
         public bool IsMain { get; set; }
-        public string PublicID { get; set; }
-        public User User { get; set; }
-        public long UserId { get; set; }
+        public string PublicId { get; set; }
     }
 }
