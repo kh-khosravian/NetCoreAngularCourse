@@ -5,7 +5,6 @@ import { environment } from 'src/environments/environment';
 import { AuthService } from 'src/app/_services/auth.service';
 import { UserService } from 'src/app/_services/User.service';
 import { AlertifyService } from 'src/app/_services/AlertifyService.service';
-import { url } from 'inspector';
 
 @Component({
   selector: 'app-photo-editor',

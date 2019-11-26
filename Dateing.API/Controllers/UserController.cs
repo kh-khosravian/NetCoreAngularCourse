@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Dateing.API.Data;
 using Dateing.API.DTO;
+using Dateing.API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dateing.API.Controllers
 {
+    [ServiceFilter(typeof(LogUserActivity))]
     [ApiController]
     [Route("[controller]")]
     [Authorize]
