@@ -20,6 +20,7 @@ namespace Dateing.API.Helpers
             CreateMap<UserUpdateModel, User>();
             CreateMap<CreatePhotoModel, Photo>();
             CreateMap<Photo, ReturnPhotoModel>();
+            CreateMap<RegisterUser,User>();
         }
     }
 }

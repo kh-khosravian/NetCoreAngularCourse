@@ -31,7 +31,7 @@ namespace Dateing.API.Controllers
             var mappedUsers = _mapper.Map<IEnumerable<UserListModel>>(users);
             return Ok(mappedUsers);
         }
-        [HttpGet("{id}")]
+        [HttpGet("{id}" , Name="GetUser")]
         public async Task<IActionResult> GetUser(long id)
         {
             var user = await _repo.GetUser(id);

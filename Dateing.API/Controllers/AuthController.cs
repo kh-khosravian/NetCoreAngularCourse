@@ -37,14 +37,12 @@ namespace Dateing.API.Controllers
             if (await _repo.UserExist(registerUser.Username))
                 return BadRequest("username already exist!");
 
-            var newUser = new User
-            {
-                Username = registerUser.Username
-            };
+            var newUser = _mapper.Map<User>(registerUser);
 
             var createdUser = await _repo.Register(newUser, registerUser.Password);
+            var userToReturn = _mapper.Map<UserDetailModel>(createdUser);
 
-            return StatusCode(201);
+            return CreatedAtRoute("GetUser", new { Controller = "User", id = createdUser.Id }, userToReturn);
         }
         [HttpPost("login")]
         public async Task<IActionResult> login(Login loginUser)
