@@ -23,7 +23,7 @@ namespace Dateing.API.Models
         public DateTime Created { get; set; }
 
         public DateTime LastActive { get; set; }
-        
+
         public string Introduction { get; set; }
 
         public string lookingFor { get; set; }
@@ -35,5 +35,9 @@ namespace Dateing.API.Models
         public string Country { get; set; }
 
         public ICollection<Photo> Photos { get; set; }
+
+        public ICollection<Like> Likers { get; set; }
+        
+        public ICollection<Like> Likees { get; set; }
     }
 }

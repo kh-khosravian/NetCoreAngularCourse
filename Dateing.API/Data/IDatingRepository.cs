@@ -19,5 +19,7 @@ namespace Dateing.API.Data
 
         Task<Photo> GetPhoto(int Id);
         Task<Photo> GetMainPhotoForUser(long userId);
+
+        Task<Like> GetLike(long userId, long recipientId);
     }
 }

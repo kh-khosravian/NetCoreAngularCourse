@@ -6,6 +6,7 @@ using AutoMapper;
 using Dateing.API.Data;
 using Dateing.API.DTO;
 using Dateing.API.Helpers;
+using Dateing.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -67,6 +68,29 @@ namespace Dateing.API.Controllers
             if (await _repo.SaveAll())
                 return NoContent();
             throw new System.Exception("update user infomation failed.");
+        }
+
+        [HttpGet("{id}/like/{recipientId}")]
+        public async Task<IActionResult> LikeUser(long id, long recipientId)
+        {
+            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            var like = await _repo.GetLike(id, recipientId);
+            if (like != null)
+                return BadRequest("you alerady like this user");
+            if (await _repo.GetUser(recipientId) == null)
+                return NotFound(); 
+            var newLike = new Like()
+            {
+                LikeeId = recipientId,
+                LikerId = id,
+            };
+               _repo.Add<Like>(newLike);
+            if (await _repo.SaveAll())
+                return Ok();
+
+            return BadRequest("Failed to like user");
         }
     }
 }
