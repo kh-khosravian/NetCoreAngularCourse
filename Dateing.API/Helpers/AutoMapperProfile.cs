@@ -20,7 +20,11 @@ namespace Dateing.API.Helpers
             CreateMap<UserUpdateModel, User>();
             CreateMap<CreatePhotoModel, Photo>();
             CreateMap<Photo, ReturnPhotoModel>();
-            CreateMap<RegisterUser,User>();
+            CreateMap<RegisterUser, User>();
+            CreateMap<CreateMessageModel, Message>().ReverseMap();
+            CreateMap<Message, MessageToReturn>()
+            .ForMember(m => m.SenderPhotoUrl, opt => opt.MapFrom(mf => mf.Sender.Photos.FirstOrDefault(p => p.IsMain).URL))
+            .ForMember(m => m.RecipientPhotoUrl, opt => opt.MapFrom(mf => mf.Recipient.Photos.FirstOrDefault(p => p.IsMain).URL));
         }
     }
 }

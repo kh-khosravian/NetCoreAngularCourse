@@ -16,11 +16,13 @@ namespace Dateing.API.Data
 
         public DbSet<Like> Likes { get; set; }
 
+        public DbSet<Message> Messages { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Like>()
                 .HasKey(k => new { k.LikeeId, k.LikerId });
-            
+
             builder.Entity<Like>()
             .HasOne(u => u.Likee)
             .WithMany(u => u.Likers)
@@ -31,6 +33,18 @@ namespace Dateing.API.Data
             .HasOne(u => u.Liker)
             .WithMany(u => u.Likees)
             .HasForeignKey(u => u.LikerId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Message>()
+            .HasOne(m => m.Recipient)
+            .WithMany(m => m.MessagesReceived)
+            .HasForeignKey(m=>m.RecipientId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Message>()
+            .HasOne(m => m.Sender)
+            .WithMany(m => m.MessagesSent)
+            .HasForeignKey(m=>m.SenderId)
             .OnDelete(DeleteBehavior.Restrict);
         }
     }

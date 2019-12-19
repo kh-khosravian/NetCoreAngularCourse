@@ -21,5 +21,10 @@ namespace Dateing.API.Data
         Task<Photo> GetMainPhotoForUser(long userId);
 
         Task<Like> GetLike(long userId, long recipientId);
+
+        Task<Message> GetMessage(long id);
+        Task<PagedList<Message>> GetMessagesForUser(MessagesParam messagesParam);
+
+        Task<IEnumerable<Message>> GetMessageThread(long userId, long recipientId);
     }
 }

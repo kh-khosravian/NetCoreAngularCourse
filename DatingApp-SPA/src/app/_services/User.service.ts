@@ -6,6 +6,7 @@ import { UserModel } from '../_model/userModel';
 import { PaginatedResult } from '../_model/paginationItem';
 import { isFulfilled } from 'q';
 import { map } from 'rxjs/operators';
+import { Message } from '../_model/message';
 
 
 @Injectable({
@@ -26,13 +27,12 @@ export class UserService {
     }
 
     if (userparams != null) {
-      params = params.append('minAge', userparams.minAge)
-      params = params.append('maxAge', userparams.maxAge)
-      params = params.append('gender', userparams.gender)
-      params = params.append('orderBy', userparams.orderBy)
+      params = params.append('minAge', userparams.minAge);
+      params = params.append('maxAge', userparams.maxAge);
+      params = params.append('gender', userparams.gender);
+      params = params.append('orderBy', userparams.orderBy);
 
     }
-    console.log(likeParams)
     if (likeParams === 'Likers') {
       params = params.append('likers', 'true');
     }
@@ -41,7 +41,7 @@ export class UserService {
       params = params.append('likees', 'true');
     }
 
-    return this.http.get<UserModel[]>(this.baseUrl, { observe: "response", params })
+    return this.http.get<UserModel[]>(this.baseUrl, { observe: 'response', params })
       .pipe(
         map(res => {
           paginatedResult.result = res.body;
@@ -70,5 +70,31 @@ export class UserService {
 
   SendLike = (id: number, recipientId: number) => {
     return this.http.get(this.baseUrl + id + '/like/' + recipientId);
+  }
+
+  GetMessages = (id: number, page?, itemPerPage?, messageContainer?) => {
+    const paginationResult: PaginatedResult<Message[]> = new PaginatedResult<Message[]>();
+    let params = new HttpParams();
+
+    params = params.append('messageContainer', messageContainer);
+
+    if (page != null && itemPerPage != null) {
+      params = params.append('pageNumber', page);
+      params = params.append('pageSize', itemPerPage);
+    }
+
+    return this.http.get<Message[]>(this.baseUrl + id + '/messages', { observe: 'response', params })
+      .pipe(
+        map(res => {
+          paginationResult.result = res.body;
+          if (res.headers.get('Pagination') != null) {
+            paginationResult.pagination = JSON.parse(res.headers.get('Pagination'));
+          }
+          return paginationResult;
+        }
+        ));
+  }
+  GetMessageThread = (id: number, recipientId: number) => {
+    return this.http.get(this.baseUrl + id + '/messages/thread/' + recipientId);
   }
 }

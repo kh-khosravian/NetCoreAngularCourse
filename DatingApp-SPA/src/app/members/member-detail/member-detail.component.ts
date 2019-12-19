@@ -4,6 +4,8 @@ import { UserService } from 'src/app/_services/User.service';
 import { AlertifyService } from 'src/app/_services/AlertifyService.service';
 import { ActivatedRoute } from '@angular/router';
 import { NgxGalleryImage, NgxGalleryOptions, NgxGalleryAnimation } from 'ngx-gallery';
+import { AuthService } from 'src/app/_services/auth.service';
+import { Message } from 'src/app/_model/message';
 
 @Component({
   selector: 'app-member-detail',
@@ -15,8 +17,9 @@ export class MemberDetailComponent implements OnInit {
   user: UserModel;
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
+  messages: Message[];
 
-  constructor(private userService: UserService, private alertify: AlertifyService, private route: ActivatedRoute) { }
+  constructor(private userService: UserService, private authService: AuthService, private alertify: AlertifyService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -42,8 +45,16 @@ export class MemberDetailComponent implements OnInit {
         medium: photo.url,
         big: photo.url,
         description: photo.description
-      });  
+      });
     }
     return imageUrls;
+  }
+
+  getMessage = () => {
+    this.userService.GetMessageThread(this.authService.currentUser.id, this.user.id).subscribe((data: Message[]) => {
+      this.messages = data;
+    }, e => {
+      this.alertify.Error(e);
+    })
   }
 }
